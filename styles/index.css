@@ -1,0 +1,58 @@
+html,
+body {
+  background-color: red;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  color: blue;
+  font-family: "lato";
+}
+html .body-content,
+body .body-content {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  height: 100%;
+}
+html .body-content .sidebar-content,
+body .body-content .sidebar-content {
+  display: flex;
+  flex-direction: column;
+  background-color: palegreen;
+}
+html .body-content .sidebar-content .names-wrapper,
+body .body-content .sidebar-content .names-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  height: 100%;
+}
+html .body-content .sidebar-content .names-wrapper .name,
+body .body-content .sidebar-content .names-wrapper .name {
+  padding: 10px;
+}
+html .body-content .page-content,
+body .body-content .page-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-left: solid green 2px;
+}
+html .body-content .page-content .spinner-wrapper,
+body .body-content .page-content .spinner-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+html .body-content .page-content .spinner-wrapper .spinner,
+body .body-content .page-content .spinner-wrapper .spinner {
+  color: black;
+  font-size: 5rem;
+}
+html .body-content .page-content .spinner-wrapper .spinner-button,
+body .body-content .page-content .spinner-wrapper .spinner-button {
+  border: none;
+}/*# sourceMappingURL=index.css.map */
