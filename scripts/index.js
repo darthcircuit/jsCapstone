@@ -21,50 +21,58 @@ const getUsers = async () =>
     })
     .catch((err) => console.error(err));
 
-const renderUsers = async () => {
+const renderAllUsers = async () => {
   const users = await getUsers();
 
   const sidebar = document.getElementById("sidebar");
-  users.forEach((n) => {
-    const nameWrapper = document.createElement("div");
-    nameWrapper.className = "name-wrapper";
-
-    const nameDiv = document.createElement("div");
-    nameDiv.className = "name";
-    const renderedName = `${n.first_name[0].toUpperCase()}${n.first_name.slice(
-      1
-    )} ${n.last_name[0].toUpperCase()}.`;
-
-    nameText = document.createTextNode(renderedName);
-
-    nameDiv.appendChild(nameText);
-    nameWrapper.appendChild(nameDiv);
-    sidebar.appendChild(nameWrapper);
-
-    const buttonWrapper = document.createElement("div");
-    buttonWrapper.className = "button-wrapper";
-
-    const minusWeight = document.createElement("button");
-    minusWeight.appendChild(document.createTextNode("-1"));
-
-    const plusWeight = document.createElement("button");
-    plusWeight.appendChild(document.createTextNode("+1"));
-
-    const count = document.createElement("span");
-    count.id = `${n._id}`;
-    count.className = "count";
-
-    count.appendChild(document.createTextNode("1"));
-
-    buttonWrapper.appendChild(minusWeight);
-    buttonWrapper.appendChild(count);
-    buttonWrapper.appendChild(plusWeight);
-
-    nameWrapper.appendChild(buttonWrapper);
+  users.forEach((user) => {
+    renderUser(user);
   });
 };
 
-renderUsers();
+const renderUser = (u) => {
+  u.weight = u.weight || 1;
+
+  const nameWrapper = document.createElement("div");
+  nameWrapper.className = "name-wrapper";
+
+  const nameDiv = document.createElement("div");
+  nameDiv.className = "name";
+  const renderedName = `${u.first_name[0].toUpperCase()}${u.first_name.slice(
+    1
+  )} ${u.last_name[0].toUpperCase()}.`;
+
+  nameText = document.createTextNode(renderedName);
+
+  nameDiv.appendChild(nameText);
+  nameWrapper.appendChild(nameDiv);
+  sidebar.appendChild(nameWrapper);
+
+  const buttonWrapper = document.createElement("div");
+  buttonWrapper.className = "button-wrapper";
+
+  const minusWeight = document.createElement("button");
+  minusWeight.appendChild(document.createTextNode("-1"));
+
+  const plusWeight = document.createElement("button");
+  plusWeight.appendChild(document.createTextNode("+1"));
+
+  const count = document.createElement("span");
+  count.id = `${u._id}`;
+  count.className = "count";
+
+  count.appendChild(document.createTextNode(`${u.weight}`));
+
+  buttonWrapper.appendChild(minusWeight);
+  buttonWrapper.appendChild(count);
+  buttonWrapper.appendChild(plusWeight);
+
+  nameWrapper.appendChild(buttonWrapper);
+
+  console.log(u);
+};
+
+renderAllUsers();
 // const cacheUsers = () => {
 //   writeTextFile("../localStore/users.json", JSON.stringify(users));
 // };
