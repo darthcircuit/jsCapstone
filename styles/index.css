@@ -32,6 +32,10 @@ html .body-content .sidebar-content .name-wrapper .name,
 body .body-content .sidebar-content .name-wrapper .name {
   padding: 10px;
 }
+html .body-content .sidebar-content .name-wrapper .button-wrapper .count,
+body .body-content .sidebar-content .name-wrapper .button-wrapper .count {
+  padding: 5px;
+}
 html .body-content .page-content,
 body .body-content .page-content {
   display: flex;

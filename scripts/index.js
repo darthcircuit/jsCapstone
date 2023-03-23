@@ -40,6 +40,27 @@ const renderUsers = async () => {
     nameDiv.appendChild(nameText);
     nameWrapper.appendChild(nameDiv);
     sidebar.appendChild(nameWrapper);
+
+    const buttonWrapper = document.createElement("div");
+    buttonWrapper.className = "button-wrapper";
+
+    const minusWeight = document.createElement("button");
+    minusWeight.appendChild(document.createTextNode("-1"));
+
+    const plusWeight = document.createElement("button");
+    plusWeight.appendChild(document.createTextNode("+1"));
+
+    const count = document.createElement("span");
+    count.id = `${n._id}`;
+    count.className = "count";
+
+    count.appendChild(document.createTextNode("1"));
+
+    buttonWrapper.appendChild(minusWeight);
+    buttonWrapper.appendChild(count);
+    buttonWrapper.appendChild(plusWeight);
+
+    nameWrapper.appendChild(buttonWrapper);
   });
 };
 
