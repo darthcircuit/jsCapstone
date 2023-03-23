@@ -19,8 +19,8 @@ body .body-content .sidebar-content {
   flex-direction: column;
   background-color: palegreen;
 }
-html .body-content .sidebar-content .names-wrapper,
-body .body-content .sidebar-content .names-wrapper {
+html .body-content .sidebar-content .name-wrapper,
+body .body-content .sidebar-content .name-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,8 +28,8 @@ body .body-content .sidebar-content .names-wrapper {
   padding: 10px;
   height: 100%;
 }
-html .body-content .sidebar-content .names-wrapper .name,
-body .body-content .sidebar-content .names-wrapper .name {
+html .body-content .sidebar-content .name-wrapper .name,
+body .body-content .sidebar-content .name-wrapper .name {
   padding: 10px;
 }
 html .body-content .page-content,
