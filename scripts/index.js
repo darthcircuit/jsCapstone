@@ -49,6 +49,7 @@ const renderUser = (u) => {
     1
   )} ${u.last_name[0].toUpperCase()}.`;
 
+  u.renderedName = renderedName;
   nameText = document.createTextNode(renderedName);
 
   nameDiv.appendChild(nameText);
@@ -109,5 +110,25 @@ async function updateWeight(id, updateValue) {
   renderUser(userObj);
 }
 
+const spinWheel = async () => {
+  const wheelNames = [];
+  const randChoice = (iter) => iter[Math.floor(Math.random() * iter.length)];
+
+  allUsers.forEach((u) => {
+    for (let i = 1; i <= u.weight; i++) {
+      wheelNames.push(`${u.renderedName}`);
+    }
+  });
+
+  domWinner = document.getElementById("winner");
+
+  chosenName = randChoice(wheelNames);
+
+  domWinner.textContent = chosenName;
+};
+
 renderAllUsers();
 // updateWeight("6418c21ae0d2fe0f4f6dd5d2", -26);
+
+const spinnerButton = document.getElementById("spinner-button");
+spinnerButton.addEventListener("click", spinWheel);
