@@ -5,7 +5,9 @@ const loginData = {
 
 const stringifiedLogin = JSON.stringify(loginData);
 
-const getUsers = async () =>
+const allUsers = [];
+
+const fetchRemoteUsers = async () =>
   fetch("https://devpipeline-mock-api.onrender.com/api/auth/login", {
     method: "POST",
     body: stringifiedLogin,
@@ -22,19 +24,24 @@ const getUsers = async () =>
     .catch((err) => console.error(err));
 
 const renderAllUsers = async () => {
-  const users = await getUsers();
+  const users = await fetchRemoteUsers();
 
-  const sidebar = document.getElementById("sidebar");
   users.forEach((user) => {
+    allUsers.push(user);
     renderUser(user);
   });
 };
 
 const renderUser = (u) => {
-  u.weight = u.weight || 1;
+  const existingName = document.getElementById(`${u._id}`);
+
+  const sidebar = document.getElementById("sidebar");
+
+  u.weight = u.weight >= 0 ? u.weight : 1;
 
   const nameWrapper = document.createElement("div");
   nameWrapper.className = "name-wrapper";
+  nameWrapper.id = `${u._id}`;
 
   const nameDiv = document.createElement("div");
   nameDiv.className = "name";
@@ -46,19 +53,27 @@ const renderUser = (u) => {
 
   nameDiv.appendChild(nameText);
   nameWrapper.appendChild(nameDiv);
-  sidebar.appendChild(nameWrapper);
 
   const buttonWrapper = document.createElement("div");
   buttonWrapper.className = "button-wrapper";
 
   const minusWeight = document.createElement("button");
   minusWeight.appendChild(document.createTextNode("-1"));
+  minusWeight.addEventListener("click", (e) => {
+    if (u.weight > 0) {
+      e = updateWeight(u._id, -1);
+    } else {
+      u.weight = 0;
+    }
+  });
 
   const plusWeight = document.createElement("button");
   plusWeight.appendChild(document.createTextNode("+1"));
+  plusWeight.addEventListener("click", (e) => {
+    e = updateWeight(u._id, 1);
+  });
 
   const count = document.createElement("span");
-  count.id = `${u._id}`;
   count.className = "count";
 
   count.appendChild(document.createTextNode(`${u.weight}`));
@@ -69,31 +84,30 @@ const renderUser = (u) => {
 
   nameWrapper.appendChild(buttonWrapper);
 
-  console.log(u);
+  // console.log(`Existing Name: ${existingName}`);
+
+  if (existingName) {
+    // existingName.className = "name-wrapper";
+    // existingName.id = `${u._id}`;
+    existingName.replaceWith(nameWrapper);
+  } else {
+    sidebar.appendChild(nameWrapper);
+  }
 };
 
+async function getUserByID(id) {
+  for (user of allUsers) {
+    if (user._id === id) {
+      return user;
+    }
+  }
+}
+
+async function updateWeight(id, updateValue) {
+  const userObj = await getUserByID(id);
+  userObj.weight += updateValue;
+  renderUser(userObj);
+}
+
 renderAllUsers();
-// const cacheUsers = () => {
-//   writeTextFile("../localStore/users.json", JSON.stringify(users));
-// };
-
-/* 
-
-Structure of Names Wrapper to build:
-
-<div class="names-wrapper">
-  <div class="name">Name 1</div>
-
-  <div class="button-wrapper">
-    <button>-1</button>
-    <span id="count">0</span>
-    <button>+1</button>
-  </div>
-  
-</div>
-
-*/
-
-// for (let user in users) {
-//   console.log(user);
-// }
+// updateWeight("6418c21ae0d2fe0f4f6dd5d2", -26);
