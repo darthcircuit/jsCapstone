@@ -1,3 +1,5 @@
+const randInt = (topNum) => Math.floor(Math.random() * topNum);
+
 const loginData = {
   email: "john@devpipeline.com",
   password: "password",
@@ -6,6 +8,8 @@ const loginData = {
 const stringifiedLogin = JSON.stringify(loginData);
 
 const allUsers = [];
+const wheelNames = [];
+let lastWinner;
 
 const fetchRemoteUsers = async () =>
   fetch("https://devpipeline-mock-api.onrender.com/api/auth/login", {
@@ -94,6 +98,8 @@ const renderUser = (u) => {
   } else {
     sidebar.appendChild(nameWrapper);
   }
+
+  populateWheel();
 };
 
 async function getUserByID(id) {
@@ -110,22 +116,55 @@ async function updateWeight(id, updateValue) {
   renderUser(userObj);
 }
 
-const spinWheel = async () => {
-  const wheelNames = [];
-  const randChoice = (iter) => iter[Math.floor(Math.random() * iter.length)];
+function* wheelNamesGen(numSpins) {
+  let i = randInt(wheelNames.length);
+  if (this.done) {
+    // this.done = false;
+    return wheelNames.splice(i, 1)[0];
+  }
+  while (true) {
+    if (i < wheelNames.length) {
+      yield wheelNames[i];
+    } else {
+      i = 0;
+      yield wheelNames[i];
+    }
+  }
+}
+
+const populateWheel = async () => {
+  wheelNames.length = 0;
 
   allUsers.forEach((u) => {
-    for (let i = 1; i <= u.weight; i++) {
-      wheelNames.push(`${u.renderedName}`);
+    if (u.weight > 0) {
+      for (let i = 1; i <= u.weight; i++) {
+        // wheelNames.push(`${u.renderedName}`);
+        wheelNames.push(u);
+      }
     }
   });
-
-  domWinner = document.getElementById("winner");
-
-  chosenName = randChoice(wheelNames);
-
-  domWinner.textContent = chosenName;
 };
+
+function spinWheel() {
+  const numWheelSpins = randInt(20);
+  console.log(wheelNames);
+  const domWinner = document.getElementById("winner");
+  let chosenName;
+  for (let i = 1; i <= numWheelSpins; i++) {
+    // wheelNamesGen(numWheelSpins).next();
+    chosenName = wheelNamesGen(numWheelSpins).next();
+    console.log(chosenName);
+  }
+  console.log(wheelNames);
+  chosenName.done = true;
+  const winner = wheelNamesGen().next();
+  console.log(winner);
+
+  domWinner.textContent = winner.value.renderedName;
+}
+
+// const randChoicePop = (iter) => iter[Math.floor(Math.random() * iter.length)];
+// chosenName = randChoicePop(wheelNames);
 
 renderAllUsers();
 // updateWeight("6418c21ae0d2fe0f4f6dd5d2", -26);
