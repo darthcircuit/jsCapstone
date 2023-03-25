@@ -116,22 +116,6 @@ async function updateWeight(id, updateValue) {
   renderUser(userObj);
 }
 
-function* wheelNamesGen(numSpins) {
-  let i = randInt(wheelNames.length);
-  if (this.done) {
-    // this.done = false;
-    return wheelNames.splice(i, 1)[0];
-  }
-  while (true) {
-    if (i < wheelNames.length) {
-      yield wheelNames[i];
-    } else {
-      i = 0;
-      yield wheelNames[i];
-    }
-  }
-}
-
 const populateWheel = async () => {
   wheelNames.length = 0;
 
@@ -145,29 +129,45 @@ const populateWheel = async () => {
   });
 };
 
-function spinWheel() {
-  const numWheelSpins = randInt(20);
-  console.log(wheelNames);
-  const domWinner = document.getElementById("winner");
-  let chosenName;
-  for (let i = 1; i <= numWheelSpins; i++) {
-    // wheelNamesGen(numWheelSpins).next();
-    chosenName = wheelNamesGen(numWheelSpins).next();
-    console.log(chosenName);
-  }
-  console.log(wheelNames);
-  chosenName.done = true;
-  const winner = wheelNamesGen().next();
-  console.log(winner);
+async function spinWheel() {
+  const numWheelSpins = randInt(25) + 1;
 
-  domWinner.textContent = winner.value.renderedName;
+  let currentIter = 0;
+  let winnerIndex = randInt(wheelNames.length);
+  let winnerId;
+  const domWinner = document.getElementById("winner");
+
+  const startWheel = setInterval(() => {
+    currentIter += 1;
+    console.log(`Current Spin: ${currentIter}`);
+    console.log(`Supposed Total Spins: ${numWheelSpins}`);
+
+    console.log(wheelNames);
+
+    console.log(winnerIndex);
+
+    const winner = wheelNames[winnerIndex];
+    domWinner.textContent = winner.renderedName;
+
+    if (currentIter === numWheelSpins) {
+      clearInterval(startWheel);
+      wheelNames.splice(winnerIndex, 1);
+      winnerId = winner._id;
+      return;
+    } else if (wheelNames.length <= 1) {
+      populateWheel();
+    }
+
+    winnerIndex = randInt(wheelNames.length);
+  }, 100);
+  return winnerId;
 }
 
-// const randChoicePop = (iter) => iter[Math.floor(Math.random() * iter.length)];
-// chosenName = randChoicePop(wheelNames);
-
 renderAllUsers();
-// updateWeight("6418c21ae0d2fe0f4f6dd5d2", -26);
 
+const findWinner = async () => {
+  const winnerId = await spinWheel();
+  console.log(winnerId);
+};
 const spinnerButton = document.getElementById("spinner-button");
-spinnerButton.addEventListener("click", spinWheel);
+spinnerButton.addEventListener("click", findWinner);
