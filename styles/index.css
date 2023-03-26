@@ -21,6 +21,7 @@ body .body-content .sidebar-content {
 }
 html .body-content .sidebar-content .name-wrapper,
 body .body-content .sidebar-content .name-wrapper {
+  background-color: aquamarine;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -35,6 +36,10 @@ body .body-content .sidebar-content .name-wrapper .name {
 html .body-content .sidebar-content .name-wrapper .button-wrapper .count,
 body .body-content .sidebar-content .name-wrapper .button-wrapper .count {
   padding: 5px;
+}
+html .body-content .sidebar-content .highlight-winner,
+body .body-content .sidebar-content .highlight-winner {
+  background-color: pink;
 }
 html .body-content .page-content,
 body .body-content .page-content {

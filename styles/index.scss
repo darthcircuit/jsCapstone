@@ -21,6 +21,7 @@ body {
 
       background-color: palegreen;
       .name-wrapper {
+        background-color: aquamarine;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -36,6 +37,9 @@ body {
             padding: 5px;
           }
         }
+      }
+      .highlight-winner {
+        background-color: pink;
       }
     }
 

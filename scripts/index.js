@@ -34,9 +34,11 @@ const renderAllUsers = async () => {
     allUsers.push(user);
     renderUser(user);
   });
+
+  populateWheel();
 };
 
-const renderUser = (u) => {
+const renderUser = (u, isWinner = false) => {
   const existingName = document.getElementById(`${u._id}`);
 
   const sidebar = document.getElementById("sidebar");
@@ -70,12 +72,14 @@ const renderUser = (u) => {
     } else {
       u.weight = 0;
     }
+    populateWheel();
   });
 
   const plusWeight = document.createElement("button");
   plusWeight.appendChild(document.createTextNode("+1"));
   plusWeight.addEventListener("click", (e) => {
     e = updateWeight(u._id, 1);
+    populateWheel();
   });
 
   const count = document.createElement("span");
@@ -89,17 +93,15 @@ const renderUser = (u) => {
 
   nameWrapper.appendChild(buttonWrapper);
 
-  // console.log(`Existing Name: ${existingName}`);
-
   if (existingName) {
-    // existingName.className = "name-wrapper";
-    // existingName.id = `${u._id}`;
+    if (isWinner) {
+      nameWrapper.classList.add("highlight-winner");
+    }
+
     existingName.replaceWith(nameWrapper);
   } else {
     sidebar.appendChild(nameWrapper);
   }
-
-  populateWheel();
 };
 
 async function getUserByID(id) {
@@ -130,11 +132,15 @@ const populateWheel = async () => {
 };
 
 async function spinWheel() {
+  nameWrappers = document.getElementsByClassName("name-wrapper");
+  for (let idx in nameWrappers) {
+    nameWrappers[idx].classList?.remove("highlight-winner");
+  }
   const numWheelSpins = randInt(25) + 1;
 
   let currentIter = 0;
   let winnerIndex = randInt(wheelNames.length);
-  let winnerId;
+
   const domWinner = document.getElementById("winner");
 
   const startWheel = setInterval(() => {
@@ -152,7 +158,9 @@ async function spinWheel() {
     if (currentIter === numWheelSpins) {
       clearInterval(startWheel);
       wheelNames.splice(winnerIndex, 1);
-      winnerId = winner._id;
+
+      renderUser(winner, true);
+
       return;
     } else if (wheelNames.length <= 1) {
       populateWheel();
@@ -160,14 +168,17 @@ async function spinWheel() {
 
     winnerIndex = randInt(wheelNames.length);
   }, 100);
-  return winnerId;
 }
+
+// async function findWinner() {
+//   const winnerId = await new Promise(() => {
+//     const w = spinWheel();
+//     return w;
+//   });
+//   // console.log(winnerId);
+// }
 
 renderAllUsers();
 
-const findWinner = async () => {
-  const winnerId = await spinWheel();
-  console.log(winnerId);
-};
 const spinnerButton = document.getElementById("spinner-button");
-spinnerButton.addEventListener("click", findWinner);
+spinnerButton.addEventListener("click", spinWheel);
