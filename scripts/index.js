@@ -96,6 +96,7 @@ const renderUser = (u, isWinner = false) => {
   if (existingName) {
     if (isWinner) {
       nameWrapper.classList.add("highlight-winner");
+      spinnerButton.disabled = false;
     }
 
     existingName.replaceWith(nameWrapper);
@@ -132,6 +133,8 @@ const populateWheel = async () => {
 };
 
 async function spinWheel() {
+  console.log("In Spin Wheel");
+  console.log(`Button Status Inside spinWheel: ${spinnerButton.disabled}`);
   nameWrappers = document.getElementsByClassName("name-wrapper");
   for (let idx in nameWrappers) {
     nameWrappers[idx].classList?.remove("highlight-winner");
@@ -145,12 +148,12 @@ async function spinWheel() {
 
   const startWheel = setInterval(() => {
     currentIter += 1;
-    console.log(`Current Spin: ${currentIter}`);
-    console.log(`Supposed Total Spins: ${numWheelSpins}`);
+    // console.log(`Current Spin: ${currentIter}`);
+    // console.log(`Supposed Total Spins: ${numWheelSpins}`);
 
-    console.log(wheelNames);
+    // console.log(wheelNames);
 
-    console.log(winnerIndex);
+    // console.log(winnerIndex);
 
     const winner = wheelNames[winnerIndex];
     domWinner.textContent = winner.renderedName;
@@ -167,18 +170,20 @@ async function spinWheel() {
     }
 
     winnerIndex = randInt(wheelNames.length);
-  }, 100);
+  }, 150);
 }
 
-// async function findWinner() {
-//   const winnerId = await new Promise(() => {
-//     const w = spinWheel();
-//     return w;
-//   });
-//   // console.log(winnerId);
-// }
-
-renderAllUsers();
+async function pressButton() {
+  spinnerButton.disabled = true;
+  await spinWheel();
+  // // spinnerButton.disabled = false;
+  // console.log("Button shouldn't work now");
+}
 
 const spinnerButton = document.getElementById("spinner-button");
-spinnerButton.addEventListener("click", spinWheel);
+spinnerButton.addEventListener("click", pressButton);
+// const test = document.getElementById("test-button");
+// console.log(test.disabled);
+// test.disabled = true;
+// console.log(test.disabled);
+renderAllUsers();
