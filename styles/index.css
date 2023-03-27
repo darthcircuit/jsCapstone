@@ -1,27 +1,53 @@
+@keyframes bgfade {
+  33% {
+    background-color: #e45606;
+  }
+  66% {
+    background-color: #cfe030;
+  }
+}
+@keyframes sidebarfade {
+  33% {
+    background-color: #3c9be0;
+  }
+  66% {
+    background-color: #727ae0;
+  }
+}
 html,
 body {
-  background-color: red;
+  position: fixed;
+  background-color: #e0270d;
+  animation-name: bgfade;
+  animation-duration: 30s;
+  animation-iteration-count: infinite;
   margin: 0;
   width: 100%;
-  height: 100vh;
-  color: blue;
+  min-height: -moz-fit-content;
+  min-height: fit-content;
+  height: 100%;
+  color: white;
   font-family: "lato";
 }
 html .body-content,
 body .body-content {
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 1fr 5fr;
   height: 100%;
 }
 html .body-content .sidebar-content,
 body .body-content .sidebar-content {
+  background-color: #63e092;
   display: flex;
   flex-direction: column;
-  background-color: palegreen;
+  animation-name: sidebarfade;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+  height: 100%;
+  overflow: auto;
 }
 html .body-content .sidebar-content .name-wrapper,
 body .body-content .sidebar-content .name-wrapper {
-  background-color: aquamarine;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -31,15 +57,22 @@ body .body-content .sidebar-content .name-wrapper {
 }
 html .body-content .sidebar-content .name-wrapper .name,
 body .body-content .sidebar-content .name-wrapper .name {
-  padding: 10px;
+  padding: 5px;
 }
 html .body-content .sidebar-content .name-wrapper .button-wrapper .count,
 body .body-content .sidebar-content .name-wrapper .button-wrapper .count {
   padding: 5px;
 }
+html .body-content .sidebar-content .name-wrapper .button-wrapper button,
+body .body-content .sidebar-content .name-wrapper .button-wrapper button {
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  padding: 7px;
+}
 html .body-content .sidebar-content .highlight-winner,
 body .body-content .sidebar-content .highlight-winner {
-  background-color: pink;
+  background-color: #e09fcf;
 }
 html .body-content .page-content,
 body .body-content .page-content {
@@ -47,7 +80,7 @@ body .body-content .page-content {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-left: solid green 2px;
+  border-left: solid white 5px;
 }
 html .body-content .page-content .spinner-wrapper,
 body .body-content .page-content .spinner-wrapper {
@@ -58,10 +91,27 @@ body .body-content .page-content .spinner-wrapper {
 }
 html .body-content .page-content .spinner-wrapper .spinner,
 body .body-content .page-content .spinner-wrapper .spinner {
-  color: black;
-  font-size: 5rem;
+  color: white;
+  font-size: 3rem;
 }
-html .body-content .page-content .spinner-wrapper .spinner-button,
-body .body-content .page-content .spinner-wrapper .spinner-button {
+html .body-content .page-content .spinner-wrapper #spinner-button,
+body .body-content .page-content .spinner-wrapper #spinner-button {
   border: none;
+  outline: none;
+  border-radius: 8px;
+  padding: 20px;
+  font-size: 2rem;
+  color: white;
+  background-color: #9a9a9a;
+  cursor: pointer;
+}
+html .body-content .page-content .spinner-wrapper #spinner-button:active,
+body .body-content .page-content .spinner-wrapper #spinner-button:active {
+  padding: 15px;
+}
+html .body-content .page-content .spinner-wrapper #spinner-button:disabled,
+body .body-content .page-content .spinner-wrapper #spinner-button:disabled {
+  opacity: 80%;
+  padding: 15px;
+  cursor: none;
 }/*# sourceMappingURL=index.css.map */
