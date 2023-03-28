@@ -56,9 +56,27 @@ const renderUser = (u, isWinner = false) => {
   )} ${u.last_name[0].toUpperCase()}.`;
 
   u.renderedName = renderedName;
-  nameText = document.createTextNode(renderedName);
 
-  nameDiv.appendChild(nameText);
+  nameSpan = document.createElement("span");
+  nameSpanNameDiv = document.createElement("div");
+  nameSpanWeightDiv = document.createElement("div");
+  nameSpan.classList = "name-and-weight";
+
+  nameText = document.createTextNode(`${renderedName}`);
+  nameWeight = document.createTextNode(`${u.weight}`);
+
+  nameSpanNameDiv.appendChild(nameText);
+  nameSpanWeightDiv.appendChild(nameWeight);
+  if (u.weight === 0) {
+    nameSpanWeightDiv.classList = "white-num";
+  } else {
+    nameSpanWeightDiv.classList = "colored-num";
+  }
+
+  nameSpan.appendChild(nameSpanNameDiv);
+  nameSpan.appendChild(nameSpanWeightDiv);
+
+  nameDiv.appendChild(nameSpan);
   nameWrapper.appendChild(nameDiv);
 
   const buttonWrapper = document.createElement("div");
@@ -85,7 +103,7 @@ const renderUser = (u, isWinner = false) => {
   const count = document.createElement("span");
   count.className = "count";
 
-  count.appendChild(document.createTextNode(`${u.weight}`));
+  // count.appendChild(document.createTextNode(`${u.weight}`));
 
   buttonWrapper.appendChild(minusWeight);
   buttonWrapper.appendChild(count);
@@ -125,7 +143,6 @@ const populateWheel = async () => {
   allUsers.forEach((u) => {
     if (u.weight > 0) {
       for (let i = 1; i <= u.weight; i++) {
-        // wheelNames.push(`${u.renderedName}`);
         wheelNames.push(u);
       }
     }
@@ -148,13 +165,6 @@ async function spinWheel() {
 
   const startWheel = setInterval(() => {
     currentIter += 1;
-    // console.log(`Current Spin: ${currentIter}`);
-    // console.log(`Supposed Total Spins: ${numWheelSpins}`);
-
-    // console.log(wheelNames);
-
-    // console.log(winnerIndex);
-
     const winner = wheelNames[winnerIndex];
     domWinner.textContent = winner.renderedName;
 
@@ -176,14 +186,9 @@ async function spinWheel() {
 async function pressButton() {
   spinnerButton.disabled = true;
   await spinWheel();
-  // // spinnerButton.disabled = false;
-  // console.log("Button shouldn't work now");
 }
 
 const spinnerButton = document.getElementById("spinner-button");
 spinnerButton.addEventListener("click", pressButton);
-// const test = document.getElementById("test-button");
-// console.log(test.disabled);
-// test.disabled = true;
-// console.log(test.disabled);
+
 renderAllUsers();

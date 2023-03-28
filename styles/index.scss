@@ -32,7 +32,7 @@ body {
 
   .body-content {
     display: grid;
-    grid-template-columns: 1fr 5fr;
+    grid-template-columns: 1fr 4fr;
     height: 100%;
 
     .sidebar-content {
@@ -45,6 +45,15 @@ body {
       height: 100%;
       overflow: auto;
 
+      .header {
+        display: flex;
+        border-bottom: rgba(99, 224, 146, 50%) solid 3px;
+        justify-content: space-between;
+        padding: 10px;
+        h2 {
+          padding: 0 20px;
+        }
+      }
       .name-wrapper {
         display: flex;
         flex-direction: column;
@@ -52,9 +61,31 @@ body {
         align-items: center;
         padding: 10px;
         height: 100%;
+        border-bottom: rgba(99, 224, 146, 50%) solid 3px;
 
         .name {
           padding: 5px;
+          width: 80%;
+          .name-and-weight {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            // font-weight: bold;
+            font-size: 1.5rem;
+            div:first-child {
+              min-width: 70%;
+            }
+            div:last-child {
+              min-width: 30%;
+              text-align: right;
+            }
+            .colored-num {
+              color: #e0654a;
+            }
+            .white-num {
+              color: white;
+            }
+          }
         }
         .button-wrapper {
           .count {
@@ -64,12 +95,18 @@ body {
             border: none;
             outline: none;
             border-radius: 5px;
-            padding: 7px;
+            padding: 10px 25px;
           }
         }
       }
       .highlight-winner {
         background-color: #e09fcf;
+      }
+      .name-wrapper:last-child {
+        border: none;
+      }
+      .name-wrapper:hover {
+        background-color: #63e092;
       }
     }
 
@@ -98,7 +135,7 @@ body {
           padding: 20px;
           font-size: 2rem;
           color: white;
-          background-color: #9a9a9a;
+          background-color: #9b8db4;
           cursor: pointer;
         }
         #spinner-button:active {
@@ -108,6 +145,9 @@ body {
           opacity: 80%;
           padding: 15px;
           cursor: none;
+        }
+        #spinner-button:hover {
+          background-color: #c1afe0;
         }
       }
     }
