@@ -103,8 +103,6 @@ const renderUser = (u, isWinner = false) => {
   const count = document.createElement("span");
   count.className = "count";
 
-  // count.appendChild(document.createTextNode(`${u.weight}`));
-
   buttonWrapper.appendChild(minusWeight);
   buttonWrapper.appendChild(count);
   buttonWrapper.appendChild(plusWeight);
