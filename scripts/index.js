@@ -90,14 +90,12 @@ const renderUser = (u, isWinner = false) => {
     } else {
       u.weight = 0;
     }
-    populateWheel();
   });
 
   const plusWeight = document.createElement("button");
   plusWeight.appendChild(document.createTextNode("+1"));
   plusWeight.addEventListener("click", (e) => {
     e = updateWeight(u._id, 1);
-    populateWheel();
   });
 
   const count = document.createElement("span");
@@ -133,6 +131,7 @@ async function updateWeight(id, updateValue) {
   const userObj = await getUserByID(id);
   userObj.weight += updateValue;
   renderUser(userObj);
+  populateWheel();
 }
 
 const populateWheel = async () => {
